@@ -78,10 +78,13 @@ export function unfreeze(): void {
 /** Start a countdown, then freeze — giving the user time to hover a menu. */
 export function countdownFreeze(seconds: number): void {
   if (countdownTimer !== null) window.clearTimeout(countdownTimer);
-  countdownTimer = window.setTimeout(() => {
-    countdownTimer = null;
-    freeze();
-  }, Math.max(0, seconds) * 1000);
+  countdownTimer = window.setTimeout(
+    () => {
+      countdownTimer = null;
+      freeze();
+    },
+    Math.max(0, seconds) * 1000,
+  );
 }
 
 export function isFrozen(): boolean {

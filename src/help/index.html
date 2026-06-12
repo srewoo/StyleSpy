@@ -19,50 +19,72 @@
 
     <main class="wrap">
       <p class="lede">
-        StyleSpy reads the CSS of <strong>every</strong> element on a page — including
-        the hidden ones and the hover/tooltip states that normally vanish — and gives
-        you copy-ready selectors for QA automation. Here's how everything works.
+        StyleSpy reads the CSS of <strong>every</strong> element on a page —
+        including the hidden ones and the hover/tooltip states that normally
+        vanish — and gives you copy-ready selectors for QA automation. Here's
+        how everything works.
       </p>
 
       <h2>Quick start</h2>
       <ol class="steps">
-        <li>Open any web page and click the StyleSpy icon to open the side panel.</li>
-        <li>Click <strong>+ Capture Page</strong>. StyleSpy scans the page and lists every element with its CSS.</li>
-        <li>Click any row to expand it, or use <strong>Full table ↗</strong> to see everything in a wide, exportable grid.</li>
+        <li>
+          Open any web page and click the StyleSpy icon to open the side panel.
+        </li>
+        <li>
+          Click <strong>+ Capture Page</strong>. StyleSpy scans the page and
+          lists every element with its CSS.
+        </li>
+        <li>
+          Click any row to expand it, or use <strong>Full table ↗</strong> to
+          see everything in a wide, exportable grid.
+        </li>
       </ol>
 
       <figure>
-        <img src="/help/capture.png" alt="The Capture list showing elements with colour, tag and properties" />
-        <figcaption>The Capture list — every element, expandable, filterable, with one-click copy of CSS &amp; XPath.</figcaption>
+        <img
+          src="/help/capture.png"
+          alt="The Capture list showing elements with colour, tag and properties"
+        />
+        <figcaption>
+          The Capture list — every element, expandable, filterable, with
+          one-click copy of CSS &amp; XPath.
+        </figcaption>
       </figure>
 
       <h2>The toolbar (top of the panel)</h2>
 
       <div class="feature-card">
-        <h3><span class="ico">❄</span> Freeze <span class="pill">⌘/Ctrl+Shift+F</span></h3>
+        <h3>
+          <span class="ico">❄</span> Freeze
+          <span class="pill">⌘/Ctrl+Shift+F</span>
+        </h3>
         <p>
           Locks the page's current <code>:hover</code>, <code>:focus</code> and
-          <code>:active</code> states and pauses animations — so a tooltip, dropdown or
-          menu stops disappearing and you can inspect it. Press the shortcut <em>while
-          hovering</em> the thing you want (the keyboard doesn't move your mouse, so the
-          state is caught). Click <strong>Unfreeze</strong> to release.
+          <code>:active</code> states and pauses animations — so a tooltip,
+          dropdown or menu stops disappearing and you can inspect it. Press the
+          shortcut <em>while hovering</em> the thing you want (the keyboard
+          doesn't move your mouse, so the state is caught). Click
+          <strong>Unfreeze</strong> to release.
         </p>
       </div>
 
       <div class="feature-card">
-        <h3><span class="ico">⌖</span> Pick <span class="pill">⌘/Ctrl+Shift+E</span></h3>
+        <h3>
+          <span class="ico">⌖</span> Pick
+          <span class="pill">⌘/Ctrl+Shift+E</span>
+        </h3>
         <p>
-          Click-to-inspect. A highlight box follows your cursor; click any element and
-          StyleSpy jumps to the <strong>Inspect</strong> tab with its full details. Press
-          <kbd>Esc</kbd> to stop picking.
+          Click-to-inspect. A highlight box follows your cursor; click any
+          element and StyleSpy jumps to the <strong>Inspect</strong> tab with
+          its full details. Press <kbd>Esc</kbd> to stop picking.
         </p>
       </div>
 
       <div class="feature-card">
         <h3><span class="ico">⏱</span> 3s capture</h3>
         <p>
-          Starts a 3-second countdown, then freezes automatically — giving you time to
-          open a menu first, then freeze it so you can read its styles.
+          Starts a 3-second countdown, then freezes automatically — giving you
+          time to open a menu first, then freeze it so you can read its styles.
         </p>
       </div>
 
@@ -71,41 +93,62 @@
       <div class="feature-card">
         <h3>Capture</h3>
         <p>
-          The main view. <strong>+ Capture Page</strong> scans the page; the list shows
-          a colour swatch, tag, text and key properties per element. Click a row to
-          expand full properties plus copy buttons for the <strong>CSS selector</strong>
-          and <strong>XPath</strong>. Filter with the chips:
+          The main view. <strong>+ Capture Page</strong> scans the page; the
+          list shows a colour swatch, tag, text and key properties per element.
+          Click a row to expand full properties plus copy buttons for the
+          <strong>CSS selector</strong> and <strong>XPath</strong>. Filter with
+          the chips:
         </p>
         <ul>
-          <li><strong>all</strong> — everything captured (the default scope grabs every element, so expect layout <code>div</code>s too).</li>
-          <li><strong>visible</strong> — only on-screen, rendered elements (use this to cut noise).</li>
+          <li>
+            <strong>all</strong> — everything captured (the default scope grabs
+            every element, so expect layout <code>div</code>s too).
+          </li>
+          <li>
+            <strong>visible</strong> — only on-screen, rendered elements (use
+            this to cut noise).
+          </li>
           <li><strong>hidden</strong> — only elements hidden by CSS.</li>
-          <li><strong>dynamic</strong> — elements captured from a frozen/picked state.</li>
+          <li>
+            <strong>dynamic</strong> — elements captured from a frozen/picked
+            state.
+          </li>
         </ul>
-        <p>The search box matches text, selector, tag, classes and colour (e.g. type <code>#2f7d72</code>).</p>
+        <p>
+          The search box matches text, selector, tag, classes and colour (e.g.
+          type <code>#2f7d72</code>).
+        </p>
       </div>
 
       <div class="feature-card">
         <h3>Inspect</h3>
         <p>
-          A deep view of a single element (from Pick or Freeze): typography, the box
-          model, a <strong>text → background colour</strong> pair, the
-          <strong>WCAG contrast ratio</strong> with an AA pass/fail flag, and both
-          locators. <strong>Copy CSS rule</strong> gives you a ready-to-paste rule block.
+          A deep view of a single element (from Pick or Freeze): typography, the
+          box model, a <strong>text → background colour</strong> pair, the
+          <strong>WCAG contrast ratio</strong> with an AA pass/fail flag, and
+          both locators. <strong>Copy CSS rule</strong> gives you a
+          ready-to-paste rule block.
         </p>
       </div>
       <figure>
-        <img src="/help/inspect.png" alt="The Inspect tab with locators, colour matrix and properties" />
-        <figcaption>Inspect — locators, base→hover colours and the full property list for one element.</figcaption>
+        <img
+          src="/help/inspect.png"
+          alt="The Inspect tab with locators, colour matrix and properties"
+        />
+        <figcaption>
+          Inspect — locators, base→hover colours and the full property list for
+          one element.
+        </figcaption>
       </figure>
 
       <div class="feature-card">
         <h3>Force</h3>
         <p>
-          Force <code>:hover</code> / <code>:focus</code> / <code>:active</code> on a CSS
-          selector <em>without</em> a real mouse. StyleSpy reads the page's own
-          stylesheets and re-applies the matching state rules, so you can study a styled
-          state hands-free. Pick an element first to pre-fill its selector.
+          Force <code>:hover</code> / <code>:focus</code> /
+          <code>:active</code> on a CSS selector <em>without</em> a real mouse.
+          StyleSpy reads the page's own stylesheets and re-applies the matching
+          state rules, so you can study a styled state hands-free. Pick an
+          element first to pre-fill its selector.
         </p>
       </div>
 
@@ -113,88 +156,148 @@
         <h3>Ghost</h3>
         <p>
           Finds elements hidden via <code>display:none</code>,
-          <code>visibility:hidden</code>, <code>opacity:0</code> or zero size — closed
-          modals, un-triggered dropdowns, tracking pixels, screen-reader-only text. Click
-          the 👁 eye to <strong>force-reveal</strong> a node (it gets a dashed outline);
-          click again to re-hide.
+          <code>visibility:hidden</code>, <code>opacity:0</code> or zero size —
+          closed modals, un-triggered dropdowns, tracking pixels,
+          screen-reader-only text. Click the 👁 eye to
+          <strong>force-reveal</strong> a node (it gets a dashed outline); click
+          again to re-hide.
         </p>
       </div>
 
       <div class="feature-card">
         <h3>Mutations</h3>
         <p>
-          A live feed of DOM changes (added / removed / attribute / text). Turn on
-          <strong>Break on next mutation</strong> to freeze the page the instant a new
-          node appears — perfect for catching a dropdown's markup as it opens.
+          A live feed of DOM changes (added / removed / attribute / text). Turn
+          on
+          <strong>Break on next mutation</strong> to freeze the page the instant
+          a new node appears — perfect for catching a dropdown's markup as it
+          opens.
         </p>
       </div>
 
       <h2>The full table</h2>
       <p>
-        <strong>Full table ↗</strong> opens your capture in a new browser tab as a wide
-        spreadsheet: sortable columns, show/hide columns, colour chips, visibility flags,
-        and the same export options. It's row-virtualized, so thousands of elements stay
-        smooth.
+        <strong>Full table ↗</strong> opens your capture in a new browser tab as
+        a wide spreadsheet: sortable columns, show/hide columns, colour chips,
+        visibility flags, and the same export options. It's row-virtualized, so
+        thousands of elements stay smooth.
       </p>
       <figure>
-        <img src="/help/table.png" alt="The full-page table view with all columns" />
-        <figcaption>The full table — sort, toggle columns, and export to CSV / JSON.</figcaption>
+        <img
+          src="/help/table.png"
+          alt="The full-page table view with all columns"
+        />
+        <figcaption>
+          The full table — sort, toggle columns, and export to CSV / JSON.
+        </figcaption>
       </figure>
 
       <h2>Locator health <span class="pill">for QA</span></h2>
       <p>
-        After a capture, the Capture tab shows a <strong>Locator health</strong> bar that
-        grades the locators of the page's <strong>visible interactive elements</strong>
-        (buttons, links, inputs, and anything with an interactive ARIA role) — the things
-        a test actually clicks or types into. Hidden nodes and layout
-        <code>div</code>s are excluded, so the score reflects real test-readiness. You can
-        see at a glance how much of a screen is safely targetable by Selenium / Playwright
-        / Cypress, and which parts need better hooks. Click any coloured segment to filter
-        the list to just those elements. The full table has a matching
+        After a capture, the Capture tab shows a
+        <strong>Locator health</strong> bar that grades the locators of the
+        page's <strong>visible interactive elements</strong>
+        (buttons, links, inputs, and anything with an interactive ARIA role) —
+        the things a test actually clicks or types into. Hidden nodes and layout
+        <code>div</code>s are excluded, so the score reflects real
+        test-readiness. You can see at a glance how much of a screen is safely
+        targetable by Selenium / Playwright / Cypress, and which parts need
+        better hooks. Click any coloured segment to filter the list to just
+        those elements. The full table has a matching
         <strong>Locator</strong> column (graded per element).
       </p>
       <table class="kbd-table">
         <tr>
-          <td><span style="color:#2f7d72;font-weight:700">strong</span></td>
-          <td>A <code>data-testid</code> (or <code>data-test</code>/<code>data-qa</code>) or a unique <code>id</code>. Stable across redesigns — the gold standard.</td>
+          <td><span style="color: #2f7d72; font-weight: 700">strong</span></td>
+          <td>
+            A <code>data-testid</code> (or
+            <code>data-test</code>/<code>data-qa</code>) or a unique
+            <code>id</code>. Stable across redesigns — the gold standard.
+          </td>
         </tr>
         <tr>
-          <td><span style="color:#b08a1e;font-weight:700">class</span></td>
-          <td>A meaningful, human-authored class, e.g. <code>a.hero-cta</code>. Usable, but can change with styling.</td>
+          <td><span style="color: #b08a1e; font-weight: 700">class</span></td>
+          <td>
+            A meaningful, human-authored class, e.g. <code>a.hero-cta</code>.
+            Usable, but can change with styling.
+          </td>
         </tr>
         <tr>
-          <td><span style="color:#c2603f;font-weight:700">fragile</span></td>
-          <td>Deep positional XPath like <code>//*[@id='root']/div[1]/div[1]/a[1]/img[1]</code>, framework/utility classes only like <code>div.MuiContainer-root</code>, hashed <code>css-1a2b3c</code> names, or <code>:nth-of-type()</code> chains. These break easily — add a <code>data-testid</code>.</td>
+          <td><span style="color: #c2603f; font-weight: 700">fragile</span></td>
+          <td>
+            Deep positional XPath like
+            <code>//*[@id='root']/div[1]/div[1]/a[1]/img[1]</code>,
+            framework/utility classes only like
+            <code>div.MuiContainer-root</code>, hashed
+            <code>css-1a2b3c</code> names, or
+            <code>:nth-of-type()</code> chains. These break easily — add a
+            <code>data-testid</code>.
+          </td>
         </tr>
       </table>
       <p class="note">
-        The <strong>“% automatable”</strong> figure is the share of <em>visible interactive</em>
-        elements that have a <em>strong</em> locator. Use it as a quick test-readiness
-        score for a screen.
+        The <strong>“% automatable”</strong> figure is the share of
+        <em>visible interactive</em> elements that have a
+        <em>strong</em> locator. Use it as a quick test-readiness score for a
+        screen.
       </p>
 
       <h2>Export, clear &amp; theme</h2>
       <ul>
-        <li><strong>Export CSV / Export JSON</strong> — download the current (filtered) capture.</li>
-        <li><strong>Copy</strong> — copy the capture as JSON to the clipboard.</li>
-        <li><strong>Clear</strong> — wipe the current capture from the panel and the table.</li>
-        <li><strong>☾ / ☀</strong> (top right) — switch between light and dark; your choice is remembered.</li>
-        <li>Your last capture is restored automatically when you reopen the panel.</li>
+        <li>
+          <strong>Export CSV / Export JSON</strong> — download the current
+          (filtered) capture.
+        </li>
+        <li>
+          <strong>Copy</strong> — copy the capture as JSON to the clipboard.
+        </li>
+        <li>
+          <strong>Clear</strong> — wipe the current capture from the panel and
+          the table.
+        </li>
+        <li>
+          <strong>☾ / ☀</strong> (top right) — switch between light and dark;
+          your choice is remembered.
+        </li>
+        <li>
+          Your last capture is restored automatically when you reopen the panel.
+        </li>
       </ul>
 
       <h2>Keyboard shortcuts</h2>
       <table class="kbd-table">
-        <tr><td><kbd>⌘/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td><td>Freeze the current hover/focus/active state</td></tr>
-        <tr><td><kbd>⌘/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd></td><td>Toggle the element picker</td></tr>
-        <tr><td><kbd>Esc</kbd></td><td>Stop the picker</td></tr>
+        <tr>
+          <td><kbd>⌘/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td>
+          <td>Freeze the current hover/focus/active state</td>
+        </tr>
+        <tr>
+          <td><kbd>⌘/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd></td>
+          <td>Toggle the element picker</td>
+        </tr>
+        <tr>
+          <td><kbd>Esc</kbd></td>
+          <td>Stop the picker</td>
+        </tr>
       </table>
-      <p class="note">Shortcuts can be changed at <code>chrome://extensions/shortcuts</code>.</p>
+      <p class="note">
+        Shortcuts can be changed at <code>chrome://extensions/shortcuts</code>.
+      </p>
 
       <h2>Tips</h2>
       <ul>
-        <li>Capturing "every element" is thorough but noisy — hit the <strong>visible</strong> filter to focus on what's on screen.</li>
-        <li>Force/Freeze work on <em>CSS-driven</em> states. Tooltips built purely in JavaScript may need Freeze (which snapshots the live state) rather than Force.</li>
-        <li>Selectors prefer <code>data-testid</code> / <code>id</code> — ideal for Selenium, Playwright and Cypress.</li>
+        <li>
+          Capturing "every element" is thorough but noisy — hit the
+          <strong>visible</strong> filter to focus on what's on screen.
+        </li>
+        <li>
+          Force/Freeze work on <em>CSS-driven</em> states. Tooltips built purely
+          in JavaScript may need Freeze (which snapshots the live state) rather
+          than Force.
+        </li>
+        <li>
+          Selectors prefer <code>data-testid</code> / <code>id</code> — ideal
+          for Selenium, Playwright and Cypress.
+        </li>
       </ul>
 
       <p class="footer-note">

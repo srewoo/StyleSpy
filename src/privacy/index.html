@@ -19,55 +19,98 @@
 
     <main class="wrap">
       <p class="lede">
-        Short version: <strong>StyleSpy runs entirely on your device, collects no
-        personal data, and sends nothing to any server.</strong>
+        Short version:
+        <strong
+          >StyleSpy runs entirely on your device, collects no personal data, and
+          sends nothing to any server.</strong
+        >
       </p>
 
       <h2>What StyleSpy accesses</h2>
       <p>
-        To inspect a page, StyleSpy reads the page's DOM and computed CSS in the tab
-        you're looking at — element styles, text, attributes, and structure. This happens
-        only on the active page, and only to display the information back to you in the
-        side panel and table.
+        To inspect a page, StyleSpy reads the page's DOM and computed CSS in the
+        tab you're looking at — element styles, text, attributes, and structure.
+        This happens only on the active page, and only to display the
+        information back to you in the side panel and table.
       </p>
 
       <h2>What StyleSpy stores</h2>
       <ul>
-        <li>Your most recent capture and your theme preference are saved using Chrome's local extension storage (<code>chrome.storage</code>) so the panel can restore them.</li>
-        <li>This data lives <strong>only on your computer</strong>. It is never transmitted off the device.</li>
-        <li>Use the <strong>Clear</strong> button (panel footer) to delete the stored capture at any time.</li>
+        <li>
+          Your most recent capture and your theme preference are saved using
+          Chrome's local extension storage (<code>chrome.storage</code>) so the
+          panel can restore them.
+        </li>
+        <li>
+          This data lives <strong>only on your computer</strong>. It is never
+          transmitted off the device.
+        </li>
+        <li>
+          Use the <strong>Clear</strong> button (panel footer) to delete the
+          stored capture at any time.
+        </li>
       </ul>
 
       <h2>What StyleSpy does NOT do</h2>
       <ul>
         <li>No analytics, telemetry, tracking, or fingerprinting.</li>
-        <li>No network requests — StyleSpy has no server and contacts no third parties.</li>
+        <li>
+          No network requests — StyleSpy has no server and contacts no third
+          parties.
+        </li>
         <li>No accounts, no cookies, no advertising.</li>
-        <li>No reading of your browsing history, passwords, or autofill data.</li>
-        <li>Data you export (CSV / JSON) is written only when you click Export, to a file you choose.</li>
+        <li>
+          No reading of your browsing history, passwords, or autofill data.
+        </li>
+        <li>
+          Data you export (CSV / JSON) is written only when you click Export, to
+          a file you choose.
+        </li>
       </ul>
 
       <h2>Permissions &amp; why they're needed</h2>
       <table class="kbd-table">
-        <tr><td><code>activeTab</code> / <code>scripting</code></td><td>Inject the inspector into the page you're viewing so it can read styles.</td></tr>
-        <tr><td><code>&lt;all_urls&gt;</code></td><td>Lets the tool work on any site you choose to inspect. You can restrict per-site access in Chrome's extension settings.</td></tr>
-        <tr><td><code>storage</code></td><td>Remember your last capture and theme — stored locally only.</td></tr>
-        <tr><td><code>tabs</code> / <code>sidePanel</code></td><td>Open the side panel and the full-table tab, and target the page you're inspecting.</td></tr>
+        <tr>
+          <td><code>activeTab</code> / <code>scripting</code></td>
+          <td>
+            Inject the inspector into the page you're viewing so it can read
+            styles.
+          </td>
+        </tr>
+        <tr>
+          <td><code>&lt;all_urls&gt;</code></td>
+          <td>
+            Lets the tool work on any site you choose to inspect. You can
+            restrict per-site access in Chrome's extension settings.
+          </td>
+        </tr>
+        <tr>
+          <td><code>storage</code></td>
+          <td>Remember your last capture and theme — stored locally only.</td>
+        </tr>
+        <tr>
+          <td><code>tabs</code> / <code>sidePanel</code></td>
+          <td>
+            Open the side panel and the full-table tab, and target the page
+            you're inspecting.
+          </td>
+        </tr>
       </table>
 
       <h2>Your control</h2>
       <p>
-        You can restrict StyleSpy to specific sites (right-click the icon → "This can read
-        and change site data"), clear stored data with the Clear button, or remove the
-        extension at any time from <code>chrome://extensions</code>. Uninstalling removes
-        all locally stored data.
+        You can restrict StyleSpy to specific sites (right-click the icon →
+        "This can read and change site data"), clear stored data with the Clear
+        button, or remove the extension at any time from
+        <code>chrome://extensions</code>. Uninstalling removes all locally
+        stored data.
       </p>
 
       <h2>Changes</h2>
       <p>
-        If this policy ever changes, the updated version will ship with the extension.
-        Because StyleSpy stores nothing remotely, changes only ever affect on-device
-        behaviour.
+        If this policy ever changes, the updated version will ship with the
+        extension. Because StyleSpy stores nothing remotely, changes only ever
+        affect on-device behaviour.
       </p>
 
       <p class="footer-note">

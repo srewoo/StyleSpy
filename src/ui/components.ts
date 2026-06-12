@@ -13,7 +13,12 @@ export function swatch(color: string): HTMLElement {
 
 /** Colour value shown as chip + hex label. */
 export function colorValue(color: string): HTMLElement {
-  return h('span', { class: 'color-value' }, swatch(color), h('code', { text: toHex(color) }));
+  return h(
+    'span',
+    { class: 'color-value' },
+    swatch(color),
+    h('code', { text: toHex(color) }),
+  );
 }
 
 /** A label → value row used in property lists. */

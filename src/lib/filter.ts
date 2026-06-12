@@ -15,7 +15,10 @@ const HIDDEN: ReadonlySet<VisibilityState> = new Set([
 ]);
 
 /** True when a snapshot belongs to the given category. */
-export function matchesFilter(s: ElementSnapshot, filter: CaptureFilter): boolean {
+export function matchesFilter(
+  s: ElementSnapshot,
+  filter: CaptureFilter,
+): boolean {
   switch (filter) {
     case 'visible':
       return s.visibility === 'visible';

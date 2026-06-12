@@ -48,13 +48,19 @@ export async function refreshGhosts(): Promise<void> {
   await sendCommand({ type: 'list-ghosts' });
 }
 
-export async function revealGhost(nodeId: string, revealed: boolean): Promise<void> {
+export async function revealGhost(
+  nodeId: string,
+  revealed: boolean,
+): Promise<void> {
   await sendCommand({ type: 'reveal-ghost', nodeId, revealed });
 }
 
 export async function toggleMutationLog(): Promise<void> {
   const next = !getState().mutationLogOn;
-  setState({ mutationLogOn: next, mutations: next ? getState().mutations : [] });
+  setState({
+    mutationLogOn: next,
+    mutations: next ? getState().mutations : [],
+  });
   await sendCommand({ type: 'toggle-mutation-log', enabled: next });
 }
 
@@ -123,7 +129,11 @@ export async function restoreSession(): Promise<void> {
   setState({
     theme,
     ...(saved && saved.snapshots.length
-      ? { snapshots: saved.snapshots, url: saved.url, status: `${saved.snapshots.length} elements (restored)` }
+      ? {
+          snapshots: saved.snapshots,
+          url: saved.url,
+          status: `${saved.snapshots.length} elements (restored)`,
+        }
       : {}),
   });
 }

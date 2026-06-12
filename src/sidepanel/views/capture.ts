@@ -3,7 +3,11 @@ import type { ElementSnapshot } from '../../types';
 import { h } from '../../ui/dom';
 import { swatch, colorValue, chip, locatorRow } from '../../ui/components';
 import { filterSnapshots, type CaptureFilter } from '../../lib/filter';
-import { classifyLocator, summarizeLocators, isAutomatable } from '../../lib/locator-quality';
+import {
+  classifyLocator,
+  summarizeLocators,
+  isAutomatable,
+} from '../../lib/locator-quality';
 import { getState, setState } from '../state';
 import { capturePage, openFullTable } from '../actions';
 
@@ -13,7 +17,9 @@ const FILTERS: CaptureFilter[] = ['all', 'visible', 'hidden', 'dynamic'];
  * Clickable locator-health bar. Scored over *visible interactive* elements
  * only — the things a QA script actually targets — not layout/hidden noise.
  */
-function locatorHealth(auditable: Parameters<typeof summarizeLocators>[0]): HTMLElement {
+function locatorHealth(
+  auditable: Parameters<typeof summarizeLocators>[0],
+): HTMLElement {
   const s = summarizeLocators(auditable);
   const { locatorFilter } = getState();
 
@@ -21,10 +27,15 @@ function locatorHealth(auditable: Parameters<typeof summarizeLocators>[0]): HTML
     return h(
       'div',
       { class: 'loc-health' },
-      h('div', { class: 'loc-health__head' },
+      h(
+        'div',
+        { class: 'loc-health__head' },
         h('span', { class: 'loc-health__title', text: 'Locator health' }),
       ),
-      h('div', { class: 'loc-caption', text: 'No visible interactive elements found.' }),
+      h('div', {
+        class: 'loc-caption',
+        text: 'No visible interactive elements found.',
+      }),
     );
   }
   const seg = (
@@ -49,9 +60,18 @@ function locatorHealth(auditable: Parameters<typeof summarizeLocators>[0]): HTML
       'div',
       { class: 'loc-health__head' },
       h('span', { class: 'loc-health__title', text: 'Locator health' }),
-      h('span', { class: 'loc-health__pct', text: `${s.strongPct}% automatable` }),
+      h('span', {
+        class: 'loc-health__pct',
+        text: `${s.strongPct}% automatable`,
+      }),
     ),
-    h('div', { class: 'loc-bar' }, seg('strong', s.strong), seg('moderate', s.moderate), seg('weak', s.weak)),
+    h(
+      'div',
+      { class: 'loc-bar' },
+      seg('strong', s.strong),
+      seg('moderate', s.moderate),
+      seg('weak', s.weak),
+    ),
     h(
       'div',
       { class: 'loc-legend' },
@@ -62,7 +82,10 @@ function locatorHealth(auditable: Parameters<typeof summarizeLocators>[0]): HTML
       h('span', { class: 'loc-dot loc-dot--weak' }),
       h('span', { text: `fragile (${s.weak})` }),
     ),
-    h('div', { class: 'loc-caption', text: `Based on ${s.total} visible interactive elements` }),
+    h('div', {
+      class: 'loc-caption',
+      text: `Based on ${s.total} visible interactive elements`,
+    }),
   );
 }
 
@@ -115,7 +138,11 @@ function row(s: ElementSnapshot, expanded: boolean): HTMLElement {
     },
     swatch(s.styles.color),
     h('span', { class: 'tag-pill', text: s.identity.tag }),
-    h('span', { class: 'cap-row__text', text: s.text || '(no text)', title: s.text }),
+    h('span', {
+      class: 'cap-row__text',
+      text: s.text || '(no text)',
+      title: s.text,
+    }),
     hidden
       ? h('span', { class: 'badge badge--hidden', text: s.visibility })
       : h('span', {
@@ -124,7 +151,11 @@ function row(s: ElementSnapshot, expanded: boolean): HTMLElement {
         }),
     h('span', { class: 'cap-row__chev', text: expanded ? '▾' : '›' }),
   );
-  const node = h('div', { class: `cap-row${hidden ? ' cap-row--hidden' : ''}` }, head);
+  const node = h(
+    'div',
+    { class: `cap-row${hidden ? ' cap-row--hidden' : ''}` },
+    head,
+  );
   if (expanded) node.append(expandedDetail(s));
   return node;
 }
@@ -139,7 +170,9 @@ export function renderCapture(): HTMLElement {
     locatorFilter === 'any'
       ? filterSnapshots(snapshots, filter, query)
       : filterSnapshots(
-          auditable.filter((s) => classifyLocator(s.identity) === locatorFilter),
+          auditable.filter(
+            (s) => classifyLocator(s.identity) === locatorFilter,
+          ),
           'all',
           query,
         );
@@ -162,7 +195,11 @@ export function renderCapture(): HTMLElement {
 
   const search = h('input', {
     class: 'search',
-    attrs: { type: 'search', placeholder: 'Search text, selector, colour…', value: query },
+    attrs: {
+      type: 'search',
+      placeholder: 'Search text, selector, colour…',
+      value: query,
+    },
     on: {
       input: (e) => setState({ query: (e.target as HTMLInputElement).value }),
     },
@@ -171,19 +208,28 @@ export function renderCapture(): HTMLElement {
   const filterRow = h(
     'div',
     { class: 'filter-row' },
-    ...FILTERS.map((f) =>
-      chip(f, filter === f, () => setState({ filter: f })),
-    ),
-    h('span', { class: 'count', text: `${visible.length} / ${snapshots.length}` }),
+    ...FILTERS.map((f) => chip(f, filter === f, () => setState({ filter: f }))),
+    h('span', {
+      class: 'count',
+      text: `${visible.length} / ${snapshots.length}`,
+    }),
   );
 
   const list = h('div', { class: 'cap-list' });
   if (snapshots.length === 0) {
     list.append(
-      h('div', { class: 'empty' },
-        h('p', { text: 'Click “Capture Page” to scan every element and its CSS.' }),
-        h('ul', { class: 'onboard' },
-          h('li', { text: '❄ Freeze (⌘/Ctrl+Shift+F) locks hover/tooltip states' }),
+      h(
+        'div',
+        { class: 'empty' },
+        h('p', {
+          text: 'Click “Capture Page” to scan every element and its CSS.',
+        }),
+        h(
+          'ul',
+          { class: 'onboard' },
+          h('li', {
+            text: '❄ Freeze (⌘/Ctrl+Shift+F) locks hover/tooltip states',
+          }),
           h('li', { text: '⌖ Pick clicks any element to inspect it' }),
           h('li', { text: '👻 Ghost DOM reveals hidden modals & dropdowns' }),
           h('li', { text: '↗ Full table opens a sortable, exportable grid' }),
@@ -191,11 +237,22 @@ export function renderCapture(): HTMLElement {
       ),
     );
   } else if (visible.length === 0) {
-    list.append(h('div', { class: 'empty', text: 'No elements match this filter / search.' }));
+    list.append(
+      h('div', {
+        class: 'empty',
+        text: 'No elements match this filter / search.',
+      }),
+    );
   } else {
-    for (const s of visible.slice(0, 800)) list.append(row(s, expanded.has(s.snapshotId)));
+    for (const s of visible.slice(0, 800))
+      list.append(row(s, expanded.has(s.snapshotId)));
     if (visible.length > 800)
-      list.append(h('div', { class: 'empty', text: `+${visible.length - 800} more — narrow the filter or open the full table.` }));
+      list.append(
+        h('div', {
+          class: 'empty',
+          text: `+${visible.length - 800} more — narrow the filter or open the full table.`,
+        }),
+      );
   }
 
   return h(

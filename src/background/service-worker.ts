@@ -1,6 +1,7 @@
 /**
  * Service worker. Two jobs:
- *  1. Make the toolbar icon open the side panel.
+ *  1. Open the side panel ONLY on the tab whose toolbar icon was clicked
+ *     (per-tab), instead of a window-wide panel shown on every tab.
  *  2. Translate the global keyboard shortcuts (Freeze / Toggle picker) into
  *     commands sent to the active tab's content script.
  *
@@ -10,11 +11,35 @@
  */
 import type { CommandMessage } from '../lib/messages';
 
+const PANEL_PATH = 'src/sidepanel/index.html';
+
+// There is no global `side_panel.default_path`, so the panel is disabled
+// everywhere until we explicitly enable it for a clicked tab. Clicking the
+// icon therefore fires action.onClicked (not an auto-open).
 chrome.runtime.onInstalled.addListener(() => {
   chrome.sidePanel
-    .setPanelBehavior({ openPanelOnActionClick: true })
+    .setPanelBehavior({ openPanelOnActionClick: false })
     .catch((e) => console.error('sidePanel behavior failed', e));
 });
+
+// Open StyleSpy for the clicked tab only. Enabling with a tabId scopes the
+// panel to that tab, so switching to other tabs hides it (they have no panel
+// enabled), rather than showing it window-wide.
+//
+// IMPORTANT: do NOT `await` before `open()`. `sidePanel.open()` must run in the
+// same synchronous turn as the user gesture; awaiting `setOptions()` first
+// throws "may only be called in response to a user gesture". So we fire
+// `setOptions` without awaiting and call `open()` immediately after.
+chrome.action.onClicked.addListener((tab) => {
+  if (tab.id === undefined) return;
+  void chrome.sidePanel.setOptions({
+    tabId: tab.id,
+    path: PANEL_PATH,
+    enabled: true,
+  });
+  void chrome.sidePanel.open({ tabId: tab.id });
+});
+
 
 /** Per-tab picker on/off so the hotkey can toggle it. */
 const pickerState = new Map<number, boolean>();

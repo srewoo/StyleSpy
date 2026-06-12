@@ -19,7 +19,10 @@ const EVENT_TYPES: ReadonlySet<string> = new Set([
 
 /** Resolve the tab the user is actually inspecting. */
 export async function getInspectedTab(): Promise<chrome.tabs.Tab | undefined> {
-  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true,
+  });
   return tab;
 }
 
@@ -37,7 +40,8 @@ export async function sendCommand(msg: CommandMessage): Promise<void> {
 /** Subscribe to events emitted by the content script. Returns an unsubscribe. */
 export function onEvent(handler: (msg: EventMessage) => void): () => void {
   const listener = (raw: unknown): void => {
-    if (isMessage(raw) && EVENT_TYPES.has(raw.type)) handler(raw as EventMessage);
+    if (isMessage(raw) && EVENT_TYPES.has(raw.type))
+      handler(raw as EventMessage);
   };
   chrome.runtime.onMessage.addListener(listener);
   return () => chrome.runtime.onMessage.removeListener(listener);

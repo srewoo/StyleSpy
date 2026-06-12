@@ -88,7 +88,10 @@ function inspect(el: Element): void {
 
 /** Begin tracking the last-hovered element. Called once at startup. */
 export function initHoverMemory(): void {
-  document.addEventListener('mousemove', onMove, { passive: true, capture: true });
+  document.addEventListener('mousemove', onMove, {
+    passive: true,
+    capture: true,
+  });
   document.addEventListener('mouseout', (e) => {
     // relatedTarget null = pointer left the document entirely.
     if (!(e as MouseEvent).relatedTarget) onLeaveViewport();

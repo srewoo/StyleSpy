@@ -15,13 +15,21 @@ export function renderForce(): HTMLElement {
 
   const input = h('input', {
     class: 'search',
-    attrs: { type: 'text', placeholder: 'CSS selector (e.g. .btn-primary)', value: prefill },
+    attrs: {
+      type: 'text',
+      placeholder: 'CSS selector (e.g. .btn-primary)',
+      value: prefill,
+    },
   }) as HTMLInputElement;
 
-  const toggles = h('div', { class: 'force-toggles' },
+  const toggles = h(
+    'div',
+    { class: 'force-toggles' },
     ...STATES.map((state) => {
       const label = h('label', { class: 'force-toggle' });
-      const box = h('input', { attrs: { type: 'checkbox' } }) as HTMLInputElement;
+      const box = h('input', {
+        attrs: { type: 'checkbox' },
+      }) as HTMLInputElement;
       box.addEventListener('change', () => {
         const sel = input.value.trim();
         if (!sel) return;
@@ -33,10 +41,15 @@ export function renderForce(): HTMLElement {
     }),
   );
 
-  return h('div', { class: 'view' },
+  return h(
+    'div',
+    { class: 'view' },
     h('div', { class: 'section-label', text: 'Force state on selector' }),
     input,
     toggles,
-    h('p', { class: 'hint', text: 'Re-applies the page’s own :hover/:focus/:active CSS so the styled state stays put without a real pointer. Pick an element first to prefill its selector.' }),
+    h('p', {
+      class: 'hint',
+      text: 'Re-applies the page’s own :hover/:focus/:active CSS so the styled state stays put without a real pointer. Pick an element first to prefill its selector.',
+    }),
   );
 }

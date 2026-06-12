@@ -39,7 +39,9 @@ function visibilityOf(el: Element): VisibilityState {
 export function listGhosts(limit = 500): GhostNode[] {
   ghostElements.clear();
   const out: GhostNode[] = [];
-  for (const el of Array.from(document.querySelectorAll<HTMLElement>('body *'))) {
+  for (const el of Array.from(
+    document.querySelectorAll<HTMLElement>('body *'),
+  )) {
     if (el.id === 'stylespy-overlay') continue;
     const reason = visibilityOf(el);
     if (!HIDDEN_REASONS.has(reason)) continue;
@@ -59,7 +61,9 @@ export function listGhosts(limit = 500): GhostNode[] {
 }
 
 function ensureRevealSheet(): CSSStyleSheet {
-  let style = document.getElementById(REVEAL_STYLE_ID) as HTMLStyleElement | null;
+  let style = document.getElementById(
+    REVEAL_STYLE_ID,
+  ) as HTMLStyleElement | null;
   if (!style) {
     style = document.createElement('style');
     style.id = REVEAL_STYLE_ID;
@@ -101,6 +105,7 @@ export function revealGhost(nodeId: string, show: boolean): boolean {
 
 /** Re-hide everything revealed this session. */
 export function clearReveals(): void {
-  for (const id of revealed) ghostElements.get(id)?.removeAttribute(REVEAL_ATTR);
+  for (const id of revealed)
+    ghostElements.get(id)?.removeAttribute(REVEAL_ATTR);
   revealed.clear();
 }

@@ -28,8 +28,18 @@ function shortTarget(node: Node): string {
   return node.nodeName.toLowerCase();
 }
 
-function push(kind: MutationEntry['kind'], target: string, detail: string): void {
-  pending.push({ id: `m-${(counter += 1)}`, kind, target, detail, at: Date.now() });
+function push(
+  kind: MutationEntry['kind'],
+  target: string,
+  detail: string,
+): void {
+  pending.push({
+    id: `m-${(counter += 1)}`,
+    kind,
+    target,
+    detail,
+    at: Date.now(),
+  });
   if (pending.length >= MAX_BATCH) flush();
 }
 
@@ -52,7 +62,11 @@ function handle(records: MutationRecord[]): void {
     if (rec.type === 'childList') {
       rec.addedNodes.forEach((n) => {
         if (n.nodeType === Node.ELEMENT_NODE) {
-          push('added', shortTarget(n), `+${(n as Element).tagName.toLowerCase()}`);
+          push(
+            'added',
+            shortTarget(n),
+            `+${(n as Element).tagName.toLowerCase()}`,
+          );
           if (breakArmed) {
             breakArmed = false;
             push('added', shortTarget(n), 'BROKE on mutation → frozen');
@@ -63,12 +77,24 @@ function handle(records: MutationRecord[]): void {
       });
       rec.removedNodes.forEach((n) => {
         if (n.nodeType === Node.ELEMENT_NODE)
-          push('removed', shortTarget(n), `-${(n as Element).tagName.toLowerCase()}`);
+          push(
+            'removed',
+            shortTarget(n),
+            `-${(n as Element).tagName.toLowerCase()}`,
+          );
       });
     } else if (rec.type === 'attributes') {
-      push('attributes', shortTarget(rec.target), `@${rec.attributeName ?? '?'}`);
+      push(
+        'attributes',
+        shortTarget(rec.target),
+        `@${rec.attributeName ?? '?'}`,
+      );
     } else if (rec.type === 'characterData') {
-      push('text', shortTarget(rec.target.parentNode ?? rec.target), 'text changed');
+      push(
+        'text',
+        shortTarget(rec.target.parentNode ?? rec.target),
+        'text changed',
+      );
     }
   }
   scheduleFlush();

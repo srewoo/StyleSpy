@@ -40,7 +40,9 @@ function contrastNote(s: ElementSnapshot): HTMLElement | null {
   const ratio = contrastRatio(s.styles.color, s.styles.backgroundColor);
   if (ratio === null) return null;
   const pass = ratio >= 4.5;
-  return h('div', { class: `contrast ${pass ? 'contrast--ok' : 'contrast--warn'}` },
+  return h(
+    'div',
+    { class: `contrast ${pass ? 'contrast--ok' : 'contrast--warn'}` },
     h('span', { text: `Contrast ${ratio}:1` }),
     h('span', { class: 'contrast__tag', text: pass ? 'AA' : 'below AA' }),
   );
@@ -52,22 +54,35 @@ export function renderInspect(): HTMLElement {
     return h(
       'div',
       { class: 'view' },
-      h('div', { class: 'empty' },
+      h(
+        'div',
+        { class: 'empty' },
         h('p', { text: 'Pick an element to inspect it in detail.' }),
-        h('button', { class: 'btn btn--primary', text: '⌖ Start picking', on: { click: () => void togglePicker() } }),
-        h('p', { class: 'hint', text: 'Tip: press ⌘/Ctrl+Shift+F while hovering a tooltip to freeze and capture it.' }),
+        h('button', {
+          class: 'btn btn--primary',
+          text: '⌖ Start picking',
+          on: { click: () => void togglePicker() },
+        }),
+        h('p', {
+          class: 'hint',
+          text: 'Tip: press ⌘/Ctrl+Shift+F while hovering a tooltip to freeze and capture it.',
+        }),
       ),
     );
   }
 
   const s = selected;
   const st = s.styles;
-  const matrix = h('div', { class: 'color-matrix' },
+  const matrix = h(
+    'div',
+    { class: 'color-matrix' },
     colorCard('text', st.color),
     colorCard('background', st.backgroundColor),
   );
 
-  const typo = h('div', { class: 'prop-group' },
+  const typo = h(
+    'div',
+    { class: 'prop-group' },
     propRow('font-family', st.fontFamily),
     propRow('font-size', st.fontSize),
     propRow('font-weight', st.fontWeight),
@@ -78,7 +93,9 @@ export function renderInspect(): HTMLElement {
     propRow('text-decoration', st.textDecoration),
   );
 
-  const box = h('div', { class: 'prop-group' },
+  const box = h(
+    'div',
+    { class: 'prop-group' },
     propRow('padding', st.padding),
     propRow('margin', st.margin),
     propRow('border', st.border),
@@ -88,18 +105,24 @@ export function renderInspect(): HTMLElement {
     propRow('display', st.display),
   );
 
-  const locators = h('div', { class: 'prop-group' },
+  const locators = h(
+    'div',
+    { class: 'prop-group' },
     locatorRow('CSS', s.identity.cssSelector),
     locatorRow('XPath', s.identity.xpath),
     s.identity.testId ? locatorRow('testid', s.identity.testId) : null,
   );
 
-  const ruleBar = h('div', { class: 'rule-bar' },
+  const ruleBar = h(
+    'div',
+    { class: 'rule-bar' },
     h('span', { class: 'state-badge', text: s.state }),
     copyButton(() => toCssRule(s), 'Copy CSS rule'),
   );
 
-  return h('div', { class: 'view' },
+  return h(
+    'div',
+    { class: 'view' },
     header(s),
     sectionLabel('Colour'),
     matrix,

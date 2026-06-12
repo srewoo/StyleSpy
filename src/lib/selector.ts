@@ -5,10 +5,17 @@
  */
 
 /** Attributes that make great automation locators, in priority order. */
-const STABLE_ATTRS = ['data-testid', 'data-test', 'data-qa', 'data-mt-id', 'name'];
+const STABLE_ATTRS = [
+  'data-testid',
+  'data-test',
+  'data-qa',
+  'data-mt-id',
+  'name',
+];
 
 /** Class fragments that look auto-generated and shouldn't anchor a selector. */
-const VOLATILE_CLASS_RE = /^(css-[a-z0-9]+|[a-z0-9]{6,}|.*\d{4,}.*|sc-[a-zA-Z0-9]+)$/;
+const VOLATILE_CLASS_RE =
+  /^(css-[a-z0-9]+|[a-z0-9]{6,}|.*\d{4,}.*|sc-[a-zA-Z0-9]+)$/;
 
 function escapeIdent(value: string): string {
   // CSS.escape exists in the browser; tests run in jsdom which also provides it.
@@ -23,7 +30,9 @@ function isUniqueId(root: Document, id: string): boolean {
 
 /** Pick stable, human-authored class names (skips hashed CSS-module noise). */
 function stableClasses(el: Element): string[] {
-  return Array.from(el.classList).filter((c) => c && !VOLATILE_CLASS_RE.test(c));
+  return Array.from(el.classList).filter(
+    (c) => c && !VOLATILE_CLASS_RE.test(c),
+  );
 }
 
 function attrSelector(el: Element): string | null {

@@ -20,7 +20,12 @@ export type CommandMessage =
   | { type: 'freeze' }
   | { type: 'unfreeze' }
   | { type: 'countdown-freeze'; seconds: number }
-  | { type: 'force-state'; selector: string; state: ElementState; enabled: boolean }
+  | {
+      type: 'force-state';
+      selector: string;
+      state: ElementState;
+      enabled: boolean;
+    }
   | { type: 'list-ghosts' }
   | { type: 'reveal-ghost'; nodeId: string; revealed: boolean }
   | { type: 'toggle-mutation-log'; enabled: boolean }

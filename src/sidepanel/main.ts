@@ -36,7 +36,9 @@ const root = document.getElementById('app')!;
 
 function header(): HTMLElement {
   const { frozen, status, theme } = getState();
-  return h('header', { class: 'app-header' },
+  return h(
+    'header',
+    { class: 'app-header' },
     h('img', { class: 'logo', attrs: { src: '/icons/icon48.png', alt: '' } }),
     h('span', { class: 'app-title', text: 'StyleSpy' }),
     h('span', { class: `live-dot${frozen ? ' live-dot--frozen' : ''}` }),
@@ -52,7 +54,9 @@ function header(): HTMLElement {
 
 function toolbar(): HTMLElement {
   const { frozen, pickerOn } = getState();
-  return h('div', { class: 'toolbar' },
+  return h(
+    'div',
+    { class: 'toolbar' },
     h('button', {
       class: `btn ${frozen ? 'btn--primary' : ''}`,
       text: frozen ? '❄ Unfreeze' : '❄ Freeze',
@@ -63,13 +67,19 @@ function toolbar(): HTMLElement {
       text: '⌖ Pick',
       on: { click: () => void togglePicker() },
     }),
-    h('button', { class: 'btn', text: '3s capture', on: { click: () => void countdownFreeze(3) } }),
+    h('button', {
+      class: 'btn',
+      text: '3s capture',
+      on: { click: () => void countdownFreeze(3) },
+    }),
   );
 }
 
 function tabBar(): HTMLElement {
   const { active } = getState();
-  return h('nav', { class: 'tab-bar' },
+  return h(
+    'nav',
+    { class: 'tab-bar' },
     ...TABS.map((t) =>
       h('button', {
         class: `tab${active === t.key ? ' tab--active' : ''}`,
@@ -82,11 +92,16 @@ function tabBar(): HTMLElement {
 
 function viewFor(active: TabKey): HTMLElement {
   switch (active) {
-    case 'capture': return renderCapture();
-    case 'inspect': return renderInspect();
-    case 'force': return renderForce();
-    case 'ghost': return renderGhost();
-    case 'mutations': return renderMutations();
+    case 'capture':
+      return renderCapture();
+    case 'inspect':
+      return renderInspect();
+    case 'force':
+      return renderForce();
+    case 'ghost':
+      return renderGhost();
+    case 'mutations':
+      return renderMutations();
   }
 }
 
@@ -96,18 +111,46 @@ function footer(): HTMLElement {
     (active === 'capture' || active === 'inspect') && snapshots.length > 0;
 
   const exportRow = showExports
-    ? h('div', { class: 'footer-row' },
-        h('button', { class: 'btn btn--sm', text: 'Export CSV', on: { click: exportCsv } }),
-        h('button', { class: 'btn btn--sm', text: 'Export JSON', on: { click: exportJson } }),
-        h('button', { class: 'btn btn--sm', text: 'Copy', on: { click: () => void copyAll() } }),
-        h('button', { class: 'btn btn--sm btn--danger', text: 'Clear', on: { click: () => void clearCapture() } }),
+    ? h(
+        'div',
+        { class: 'footer-row' },
+        h('button', {
+          class: 'btn btn--sm',
+          text: 'Export CSV',
+          on: { click: exportCsv },
+        }),
+        h('button', {
+          class: 'btn btn--sm',
+          text: 'Export JSON',
+          on: { click: exportJson },
+        }),
+        h('button', {
+          class: 'btn btn--sm',
+          text: 'Copy',
+          on: { click: () => void copyAll() },
+        }),
+        h('button', {
+          class: 'btn btn--sm btn--danger',
+          text: 'Clear',
+          on: { click: () => void clearCapture() },
+        }),
       )
     : null;
 
-  const links = h('div', { class: 'footer-links' },
-    h('a', { class: 'flink', text: 'Help', on: { click: () => void openExtensionPage('src/help/index.html') } }),
+  const links = h(
+    'div',
+    { class: 'footer-links' },
+    h('a', {
+      class: 'flink',
+      text: 'Help',
+      on: { click: () => void openExtensionPage('src/help/index.html') },
+    }),
     h('span', { class: 'fsep', text: '·' }),
-    h('a', { class: 'flink', text: 'Privacy', on: { click: () => void openExtensionPage('src/privacy/index.html') } }),
+    h('a', {
+      class: 'flink',
+      text: 'Privacy',
+      on: { click: () => void openExtensionPage('src/privacy/index.html') },
+    }),
   );
 
   return h('footer', { class: 'app-footer' }, exportRow, links);
@@ -120,7 +163,13 @@ function render(): void {
   const caret = keepSearch ? activeEl!.selectionStart : null;
 
   clear(root);
-  root.append(header(), toolbar(), tabBar(), viewFor(getState().active), footer());
+  root.append(
+    header(),
+    toolbar(),
+    tabBar(),
+    viewFor(getState().active),
+    footer(),
+  );
 
   if (keepSearch) {
     const next = root.querySelector<HTMLInputElement>('input.search');
@@ -132,7 +181,9 @@ function render(): void {
 }
 
 function mergeSnapshot(snap: ElementSnapshot): ElementSnapshot[] {
-  const rest = getState().snapshots.filter((s) => s.snapshotId !== snap.snapshotId);
+  const rest = getState().snapshots.filter(
+    (s) => s.snapshotId !== snap.snapshotId,
+  );
   return [snap, ...rest];
 }
 
@@ -143,20 +194,34 @@ function wireEvents(): void {
         setState({ status: `Capturing… ${msg.done}/${msg.total}` });
         break;
       case 'capture-result':
-        setState({ snapshots: msg.snapshots, url: msg.url, status: `${msg.snapshots.length} elements` });
+        setState({
+          snapshots: msg.snapshots,
+          url: msg.url,
+          status: `${msg.snapshots.length} elements`,
+        });
         void persistCapture();
         break;
       case 'element-inspected':
-        setState({ snapshots: mergeSnapshot(msg.snapshot), selected: msg.snapshot, active: 'inspect', status: 'Element inspected' });
+        setState({
+          snapshots: mergeSnapshot(msg.snapshot),
+          selected: msg.snapshot,
+          active: 'inspect',
+          status: 'Element inspected',
+        });
         break;
       case 'ghost-list':
         setState({ ghosts: msg.nodes, status: `${msg.nodes.length} hidden` });
         break;
       case 'mutation-batch':
-        setState({ mutations: [...getState().mutations, ...msg.entries].slice(-400) });
+        setState({
+          mutations: [...getState().mutations, ...msg.entries].slice(-400),
+        });
         break;
       case 'freeze-changed':
-        setState({ frozen: msg.frozen, status: msg.frozen ? 'Frozen' : 'Ready' });
+        setState({
+          frozen: msg.frozen,
+          status: msg.frozen ? 'Frozen' : 'Ready',
+        });
         break;
       case 'picker-changed':
         setState({ pickerOn: msg.enabled });

@@ -67,7 +67,10 @@ export function collectStateDeclarations(
   return decls;
 }
 
-function applyToElement(el: Element, state: Exclude<ElementState, 'base'>): void {
+function applyToElement(
+  el: Element,
+  state: Exclude<ElementState, 'base'>,
+): void {
   const html = el as HTMLElement;
   if (!originalInline.has(el)) originalInline.set(el, html.style.cssText);
   const decls = collectStateDeclarations(el, state);

@@ -45,7 +45,11 @@ function dispatch(cmd: CommandMessage): void {
   switch (cmd.type) {
     case 'capture-page':
       void capturePage(cmd.scope, (done, total) => {
-        void chrome.runtime.sendMessage({ type: 'capture-progress', done, total });
+        void chrome.runtime.sendMessage({
+          type: 'capture-progress',
+          done,
+          total,
+        });
       }).then((snapshots) => {
         void chrome.runtime.sendMessage({
           type: 'capture-result',
@@ -71,7 +75,10 @@ function dispatch(cmd: CommandMessage): void {
       setForcedState(cmd.selector, cmd.state, cmd.enabled);
       break;
     case 'list-ghosts':
-      void chrome.runtime.sendMessage({ type: 'ghost-list', nodes: listGhosts() });
+      void chrome.runtime.sendMessage({
+        type: 'ghost-list',
+        nodes: listGhosts(),
+      });
       break;
     case 'reveal-ghost':
       revealGhost(cmd.nodeId, cmd.revealed);

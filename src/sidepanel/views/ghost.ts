@@ -29,10 +29,19 @@ function ghostRow(node: GhostNode): HTMLElement {
       },
     },
   });
-  return h('div', { class: 'ghost-row' },
+  return h(
+    'div',
+    { class: 'ghost-row' },
     h('span', { class: 'tag-pill', text: node.tag }),
-    h('span', { class: 'badge badge--hidden', text: REASON_LABEL[node.reason] }),
-    h('span', { class: 'ghost-row__text', text: node.text || node.cssSelector, title: node.cssSelector }),
+    h('span', {
+      class: 'badge badge--hidden',
+      text: REASON_LABEL[node.reason],
+    }),
+    h('span', {
+      class: 'ghost-row__text',
+      text: node.text || node.cssSelector,
+      title: node.cssSelector,
+    }),
     copyButton(() => node.cssSelector, 'css'),
     eye,
   );
@@ -42,13 +51,29 @@ export function renderGhost(): HTMLElement {
   const { ghosts } = getState();
   const list = h('div', { class: 'ghost-list' });
   if (ghosts.length === 0) {
-    list.append(h('div', { class: 'empty', text: 'Scan to find elements hidden via CSS (closed modals, dropdowns, tracking pixels, SR-only text).' }));
+    list.append(
+      h('div', {
+        class: 'empty',
+        text: 'Scan to find elements hidden via CSS (closed modals, dropdowns, tracking pixels, SR-only text).',
+      }),
+    );
   } else {
     for (const g of ghosts) list.append(ghostRow(g));
   }
-  return h('div', { class: 'view' },
-    h('button', { class: 'btn btn--primary', text: '👻 Scan for hidden elements', on: { click: () => void refreshGhosts() } }),
-    ghosts.length ? h('div', { class: 'count count--block', text: `${ghosts.length} hidden elements` }) : null,
+  return h(
+    'div',
+    { class: 'view' },
+    h('button', {
+      class: 'btn btn--primary',
+      text: '👻 Scan for hidden elements',
+      on: { click: () => void refreshGhosts() },
+    }),
+    ghosts.length
+      ? h('div', {
+          class: 'count count--block',
+          text: `${ghosts.length} hidden elements`,
+        })
+      : null,
     list,
   );
 }

@@ -7,7 +7,11 @@
  *  - weak:     deep positional XPath (…/div[1]/div[1]/a[1]) or framework/hashed
  *              utility classes only (e.g. div.MuiContainer-root) → brittle
  */
-import type { ElementIdentity, ElementSnapshot, VisibilityState } from '../types';
+import type {
+  ElementIdentity,
+  ElementSnapshot,
+  VisibilityState,
+} from '../types';
 
 export type LocatorQuality = 'strong' | 'moderate' | 'weak';
 
@@ -21,14 +25,35 @@ const HIDDEN: ReadonlySet<VisibilityState> = new Set([
 
 /** Tags a user actually interacts with / automates against. */
 const INTERACTIVE_TAGS: ReadonlySet<string> = new Set([
-  'a', 'button', 'input', 'select', 'textarea', 'summary', 'details', 'option', 'label',
+  'a',
+  'button',
+  'input',
+  'select',
+  'textarea',
+  'summary',
+  'details',
+  'option',
+  'label',
 ]);
 
 /** ARIA roles that denote an interactive control. */
 const INTERACTIVE_ROLES: ReadonlySet<string> = new Set([
-  'button', 'link', 'checkbox', 'radio', 'tab', 'menuitem', 'menuitemcheckbox',
-  'menuitemradio', 'switch', 'textbox', 'combobox', 'option', 'slider', 'spinbutton',
-  'searchbox', 'listbox',
+  'button',
+  'link',
+  'checkbox',
+  'radio',
+  'tab',
+  'menuitem',
+  'menuitemcheckbox',
+  'menuitemradio',
+  'switch',
+  'textbox',
+  'combobox',
+  'option',
+  'slider',
+  'spinbutton',
+  'searchbox',
+  'listbox',
 ]);
 
 /** True for elements a QA script would target (by tag or ARIA role). */
@@ -46,8 +71,7 @@ export function isAutomatable(s: ElementSnapshot): boolean {
 }
 
 /** Class names that don't make durable locators (framework / hashed / utility). */
-const FRAGILE_CLASS =
-  /^(Mui|MuiBox|css-|sc-|jsx-|chakra-|ant-|tw-|_|emotion-)/;
+const FRAGILE_CLASS = /^(Mui|MuiBox|css-|sc-|jsx-|chakra-|ant-|tw-|_|emotion-)/;
 
 function isFragileClass(cls: string): boolean {
   if (FRAGILE_CLASS.test(cls)) return true;

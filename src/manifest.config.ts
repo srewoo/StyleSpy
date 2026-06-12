@@ -35,9 +35,9 @@ export default defineManifest({
       '128': 'icons/icon128.png',
     },
   },
-  side_panel: {
-    default_path: 'src/sidepanel/index.html',
-  },
+  // No global `side_panel.default_path`: the panel is enabled per-tab in the
+  // service worker so it appears only on the tab where it was opened, not
+  // window-wide across every tab.
   icons: {
     '16': 'icons/icon16.png',
     '48': 'icons/icon48.png',
