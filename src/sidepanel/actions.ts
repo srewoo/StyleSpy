@@ -14,6 +14,12 @@ import { toCsv, toJson } from '../lib/format';
 import { filterSnapshots } from '../lib/filter';
 import { getState, setState } from './state';
 
+/** Best-effort human-readable message from a chrome.storage rejection. */
+function storageError(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err);
+  return /quota/i.test(msg) ? 'capture too large for storage' : msg;
+}
+
 export async function capturePage(): Promise<void> {
   setState({ status: 'Capturing page…' });
   await sendCommand({ type: 'capture-page', scope: 'all' });
@@ -96,9 +102,16 @@ export async function openExtensionPage(path: string): Promise<void> {
 /** Stash the current capture and open the full-table view in a new tab. */
 export async function openFullTable(): Promise<void> {
   const { snapshots, url } = getState();
-  await chrome.storage.local.set({
-    [CAPTURE_STORAGE_KEY]: { snapshots, url, capturedAt: Date.now() },
-  });
+  try {
+    await chrome.storage.local.set({
+      [CAPTURE_STORAGE_KEY]: { snapshots, url, capturedAt: Date.now() },
+    });
+  } catch (err) {
+    // Typically QUOTA_BYTES exceeded on a very large capture. Don't open an
+    // empty table on a write we know failed — tell the user instead.
+    setState({ status: `Couldn't open table: ${storageError(err)}` });
+    return;
+  }
   await chrome.tabs.create({
     url: chrome.runtime.getURL('src/table/index.html'),
   });
@@ -113,19 +126,32 @@ export async function syncUrl(): Promise<void> {
 /** Persist the latest capture so it survives the panel being closed. */
 export async function persistCapture(): Promise<void> {
   const { snapshots, url } = getState();
-  await chrome.storage.session.set({
-    [PANEL_STORAGE_KEY]: { snapshots, url },
-  });
+  try {
+    await chrome.storage.session.set({
+      [PANEL_STORAGE_KEY]: { snapshots, url },
+    });
+  } catch (err) {
+    // The capture is still in memory and fully usable; only the
+    // survive-a-reopen guarantee is lost. Surface it rather than pretend.
+    setState({
+      status: `Capture won't persist (${storageError(err)})`,
+    });
+  }
 }
 
 /** Restore a persisted capture + theme on panel open. */
 export async function restoreSession(): Promise<void> {
-  const theme = await loadTheme();
+  let theme: Awaited<ReturnType<typeof loadTheme>> = 'light';
+  let saved: { snapshots: ElementSnapshot[]; url: string } | undefined;
+  try {
+    theme = await loadTheme();
+    const data = await chrome.storage.session.get(PANEL_STORAGE_KEY);
+    saved = data[PANEL_STORAGE_KEY] as typeof saved;
+  } catch {
+    // Storage unavailable — open with defaults rather than fail to render.
+    saved = undefined;
+  }
   document.documentElement.dataset.theme = theme;
-  const data = await chrome.storage.session.get(PANEL_STORAGE_KEY);
-  const saved = data[PANEL_STORAGE_KEY] as
-    | { snapshots: ElementSnapshot[]; url: string }
-    | undefined;
   setState({
     theme,
     ...(saved && saved.snapshots.length

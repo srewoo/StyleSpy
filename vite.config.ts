@@ -25,7 +25,10 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     coverage: {
       provider: 'v8',
-      include: ['src/lib/**/*.ts'],
+      include: ['src/**/*.ts'],
+      // Entry shells with no testable logic: the content-script dispatcher and
+      // the panel bootstrap are exercised end-to-end by Playwright instead.
+      exclude: ['src/manifest.config.ts', 'src/types.ts', 'src/**/index.ts'],
     },
   },
 });

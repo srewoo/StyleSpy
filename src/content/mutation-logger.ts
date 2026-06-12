@@ -5,7 +5,6 @@
  */
 import type { MutationEntry } from '../types';
 import { emit } from './emitter';
-import { buildCssSelector } from '../lib/selector';
 import { freeze } from './freeze';
 
 const FLUSH_MS = 400;
@@ -17,15 +16,22 @@ let counter = 0;
 let pending: MutationEntry[] = [];
 let flushTimer: number | null = null;
 
+/**
+ * A cheap, allocation-light descriptor for a mutated node: `tag#id.class`.
+ * This runs inside the MutationObserver callback — potentially hundreds of
+ * times per second on a chatty SPA — so it must stay O(1). It deliberately
+ * does NOT call `buildCssSelector`, whose per-ancestor `querySelectorAll`
+ * uniqueness probes are O(page) and would dominate the hot path. The feed is a
+ * human-readable activity log, not a list of resolvable locators.
+ */
 function shortTarget(node: Node): string {
-  if (node.nodeType === Node.ELEMENT_NODE) {
-    try {
-      return buildCssSelector(node as Element);
-    } catch {
-      return (node as Element).tagName.toLowerCase();
-    }
-  }
-  return node.nodeName.toLowerCase();
+  if (node.nodeType !== Node.ELEMENT_NODE) return node.nodeName.toLowerCase();
+  const el = node as Element;
+  let label = el.tagName.toLowerCase();
+  if (el.id) label += `#${el.id}`;
+  const first = el.classList[0];
+  if (first) label += `.${first}`;
+  return label;
 }
 
 function push(

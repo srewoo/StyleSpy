@@ -11,6 +11,7 @@ import { toHex } from '../lib/color';
 import { filterSnapshots } from '../lib/filter';
 import { classifyLocator } from '../lib/locator-quality';
 import { toCsv, toJson } from '../lib/format';
+import { sortByKey, type SortDir } from '../lib/sort';
 
 interface Column {
   key: string;
@@ -150,9 +151,7 @@ function locatorCell(s: ElementSnapshot): Node {
 function rows(): ElementSnapshot[] {
   const filtered = filterSnapshots(state.snapshots, 'all', state.query);
   const col = COLUMNS.find((c) => c.key === state.sortKey) ?? COLUMNS[0]!;
-  return [...filtered].sort(
-    (a, b) => col.get(a).localeCompare(col.get(b)) * state.sortDir,
-  );
+  return sortByKey(filtered, col.get, state.sortDir as SortDir);
 }
 
 function toolbar(): HTMLElement {

@@ -4,7 +4,7 @@ import pkg from '../package.json';
 /**
  * MV3 manifest. StyleSpy runs on all sites (the user can still scope it down
  * via Chrome's per-site access controls). The side panel is the primary UI;
- * the content script is the inspection engine injected into every frame.
+ * the content script is the inspection engine injected into the top frame.
  */
 export default defineManifest({
   manifest_version: 3,
@@ -24,7 +24,13 @@ export default defineManifest({
       matches: ['<all_urls>'],
       js: ['src/content/index.ts'],
       run_at: 'document_idle',
-      all_frames: true,
+      // Top frame only. Injecting into every sub-frame multiplied the runtime
+      // footprint on ad/tracker-heavy pages, and a page-wide capture from N
+      // frames raced (each frame's `capture-result` overwrote the last). It
+      // was also misleading: a selector/XPath built inside an iframe's document
+      // does not resolve when applied at the top level, so a merged cross-frame
+      // locator list would hand QA broken locators — the opposite of the goal.
+      all_frames: false,
     },
   ],
   action: {

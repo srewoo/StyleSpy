@@ -1,7 +1,6 @@
 /**
- * Panel/table-side messaging. Commands are sent to the active tab's content
- * script; events arrive back over runtime messaging. Commands are broadcast to
- * every frame (frameId omitted) so iframed content is reachable too.
+ * Panel/table-side messaging. Commands are sent to the active tab's top-frame
+ * content script; events arrive back over runtime messaging.
  */
 import type { CommandMessage, EventMessage } from '../lib/messages';
 import { isMessage } from '../lib/messages';

@@ -55,8 +55,11 @@ Then in Chrome:
 npm run dev         # Vite dev build with HMR (re-load unpacked from dist/)
 npm run typecheck   # tsc --noEmit (strict)
 npm run lint        # ESLint (zero-warning policy)
-npm run test        # Vitest unit + integration tests (67)
-npm run test:e2e    # Playwright: loads dist/ into Chromium, drives a real capture
+npm run test        # Vitest unit + integration tests (152)
+npm run test:coverage  # same, with a V8 coverage report
+npm run test:e2e    # Playwright (9): loads dist/ into Chromium, drives real
+                    # capture, freeze, ghost reveal, force-state, mutations,
+                    # picker, and the full-table page
 npm run format      # Prettier
 ```
 
@@ -94,9 +97,10 @@ src/
 ```
 
 **Design principle:** all parsing / formatting / selector logic lives in `lib/`
-as pure functions so it is exhaustively unit-tested (56 tests); the `content/`
-and UI layers are thin shells that wire those functions to the DOM and Chrome
-APIs.
+as pure functions so it is exhaustively unit-tested; the `content/` and UI
+layers are thin shells that wire those functions to the DOM and Chrome APIs.
+CI (`.github/workflows/ci.yml`) runs type-check, lint, unit/integration tests,
+and a Chromium E2E on every push and PR.
 
 ---
 

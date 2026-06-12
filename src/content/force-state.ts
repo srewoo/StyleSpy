@@ -18,11 +18,20 @@ const forced: Record<ElementState, Set<Element>> = {
   active: new Set(),
 };
 
+// Non-global on purpose: these are reused across many `.test()` calls, and a
+// global regex would advance `lastIndex` between calls and intermittently
+// false-negative. The strip step below builds its own global variant.
 const PSEUDO: Record<Exclude<ElementState, 'base'>, RegExp> = {
-  hover: /:hover\b/gi,
-  focus: /:focus(-visible|-within)?\b/gi,
-  active: /:active\b/gi,
+  hover: /:hover\b/i,
+  focus: /:focus(-visible|-within)?\b/i,
+  active: /:active\b/i,
 };
+
+const FORCEABLE_STATES: ReadonlyArray<Exclude<ElementState, 'base'>> = [
+  'hover',
+  'focus',
+  'active',
+];
 
 /**
  * Collect CSS declarations the page would apply to `el` in `state`, by reading
@@ -47,7 +56,11 @@ export function collectStateDeclarations(
       if (!(rule instanceof CSSStyleRule)) continue;
       if (!pseudo.test(rule.selectorText)) continue;
       // Strip the pseudo so we can test whether this element is the subject.
-      const stripped = rule.selectorText.replace(pseudo, '').trim();
+      // A fresh global regex handles selectors that mention the pseudo more
+      // than once (e.g. `.a:hover .b:hover`) without sharing `lastIndex`.
+      const stripped = rule.selectorText
+        .replace(new RegExp(pseudo.source, 'gi'), '')
+        .trim();
       if (!stripped) continue;
       let matches = false;
       try {
@@ -80,13 +93,31 @@ function applyToElement(
   forced[state].add(el);
 }
 
-function restoreElement(el: Element): void {
+/**
+ * Re-derive an element's inline style from its saved original plus whatever
+ * forced states are *still* active on it. Called after a state is removed so
+ * that clearing one state (e.g. hover) doesn't also wipe another that is still
+ * forced (e.g. focus). When no states remain, the original is restored and the
+ * bookkeeping entry dropped.
+ */
+function refreshElement(el: Element): void {
   const html = el as HTMLElement;
   const original = originalInline.get(el);
-  if (original !== undefined) {
-    html.style.cssText = original;
-    originalInline.delete(el);
+  if (original === undefined) return;
+
+  html.style.cssText = original;
+
+  let stillForced = false;
+  for (const state of FORCEABLE_STATES) {
+    if (!forced[state].has(el)) continue;
+    stillForced = true;
+    const decls = collectStateDeclarations(el, state);
+    for (const [prop, value] of decls) {
+      html.style.setProperty(prop, value, 'important');
+    }
   }
+
+  if (!stillForced) originalInline.delete(el);
 }
 
 /**
@@ -109,7 +140,7 @@ export function setForcedState(
     if (enabled) applyToElement(el, state);
     else {
       forced[state].delete(el);
-      restoreElement(el);
+      refreshElement(el);
     }
   }
   return targets.length;
@@ -125,9 +156,12 @@ export function forceStateOnElement(
 
 /** Clear every forced state across all elements. */
 export function clearAllForcedStates(): void {
-  for (const state of Object.keys(forced) as ElementState[]) {
-    if (state === 'base') continue;
-    for (const el of forced[state]) restoreElement(el);
+  // Gather every affected element, then clear all state sets, so the final
+  // `refreshElement` sees no remaining states and restores each original once.
+  const affected = new Set<Element>();
+  for (const state of FORCEABLE_STATES) {
+    for (const el of forced[state]) affected.add(el);
     forced[state].clear();
   }
+  for (const el of affected) refreshElement(el);
 }

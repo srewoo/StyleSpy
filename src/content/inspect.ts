@@ -31,7 +31,13 @@ const INTERACTIVE =
 let counter = 0;
 const nextId = (): string => `ss-${(counter += 1)}`;
 
-/** Maps the most-recently-captured snapshots back to their live elements. */
+/**
+ * Maps the most-recently-captured snapshots back to their live elements.
+ * Populated ONLY by {@link capturePage} (and reset at the start of each
+ * capture). Single-element snapshots from the picker/freeze deliberately do
+ * NOT register here — lock-target mode snapshots on every `mousemove`, and
+ * registering each would grow this map without bound and pin detached nodes.
+ */
 export const snapshotElements = new Map<string, Element>();
 
 function isInViewport(rect: DOMRect): boolean {
@@ -56,7 +62,6 @@ export function snapshotElement(
   const style = window.getComputedStyle(el);
   const rect = el.getBoundingClientRect();
   const id = nextId();
-  snapshotElements.set(id, el);
 
   return {
     snapshotId: id,
@@ -110,8 +115,12 @@ export function capturePage(
     const step = (): void => {
       const end = Math.min(index + BATCH_SIZE, total);
       for (; index < end; index += 1) {
-        const snap = snapshotElement(candidates[index]!);
-        if (snap) out.push(snap);
+        const el = candidates[index]!;
+        const snap = snapshotElement(el);
+        if (snap) {
+          snapshotElements.set(snap.snapshotId, el);
+          out.push(snap);
+        }
       }
       onProgress?.(index, total);
       if (index < total) requestAnimationFrame(step);

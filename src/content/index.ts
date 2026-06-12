@@ -1,7 +1,7 @@
 /**
  * Content-script entry. Wires the event emitter to chrome messaging, starts
  * hover-memory tracking, and dispatches incoming commands to the feature
- * engines. Injected into every frame at document_idle.
+ * engines. Injected into the top frame at document_idle.
  */
 import { isMessage, isCommand, type CommandMessage } from '../lib/messages';
 import { setEmitter } from './emitter';
