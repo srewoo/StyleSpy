@@ -11,9 +11,9 @@ export default defineManifest({
   name: 'StyleSpy — CSS & State Inspector',
   version: pkg.version,
   description:
-    'Inspect CSS of static, hidden and dynamic elements. Freeze hover/focus states, reveal ghost DOM, track mutations, and copy CSS + XPath locators for QA automation.',
+    'Inspect CSS of static, hidden and dynamic elements. Freeze hover/focus states, reveal ghost DOM, track mutations.',
   minimum_chrome_version: '114',
-  permissions: ['activeTab', 'scripting', 'storage', 'tabs', 'sidePanel'],
+  permissions: ['activeTab', 'storage', 'tabs', 'sidePanel'],
   host_permissions: ['<all_urls>'],
   background: {
     service_worker: 'src/background/service-worker.ts',
