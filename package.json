@@ -1,0 +1,38 @@
+{
+  "name": "stylespy",
+  "version": "2.0.0",
+  "private": true,
+  "description": "StyleSpy — a Chrome side-panel inspector for capturing CSS of static, hidden, and dynamic elements (hover/focus/active states, tooltips, ghost DOM) with copy-ready CSS & XPath locators for QA automation.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:icons": "node scripts/render-icons.mjs",
+    "zip": "npm run build && node scripts/zip.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,css,html}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "npm run build && playwright test"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.28",
+    "@playwright/test": "^1.48.2",
+    "@eslint/js": "^9.14.0",
+    "@types/chrome": "^0.0.270",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.12.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3",
+    "sharp": "^0.33.5",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}
