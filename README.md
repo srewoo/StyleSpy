@@ -36,6 +36,8 @@ copy-ready **CSS selectors and XPath** for Selenium / Playwright / Cypress.
 npm install
 npm run build:icons   # one-time: render PNG icons from the SVG mark
 npm run build         # type-checks, then bundles to dist/
+npm run zip           # build + package dist/ into web-store/stylespy-v<ver>.zip
+npm run build:store   # render Chrome Web Store screenshots + promo tiles → store-assets/
 ```
 
 Then in Chrome:

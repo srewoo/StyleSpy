@@ -4,6 +4,7 @@ coverage/
 test-results/
 playwright-report/
 web-store/
+store-assets/
 *.log
 .DS_Store
 designs/

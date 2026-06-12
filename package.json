@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "build:icons": "node scripts/render-icons.mjs",
+    "build:store": "node scripts/render-store-assets.mjs",
     "zip": "npm run build && node scripts/zip.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
